@@ -1,0 +1,90 @@
+version: '3'
+services:
+
+  db:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis-data:/data
+
+  base: &base
+    build:
+      context: .
+      dockerfile: Dockerfile-development
+    environment:
+      DOCKER_HOST: ${DOCKER_HOST}
+    volumes:
+      - .:/mastodon
+      - build:/mastodon/build
+      - bundle:/mastodon/vendor/bundle
+      - node_modules:/mastodon/node_modules
+      - public-assets:/mastodon/public/assets
+      - public-packs:/mastodon/public/packs
+      - public-system:/mastodon/public/system
+      - tmp-cache:/mastodon/tmp/cache
+      - yarn_cache:/usr/local/share/.cache
+    tmpfs:
+      /mastodon/tmp/pids
+
+  web:
+    <<: *base
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - 3500:3000
+    depends_on:
+      - db
+      - redis
+      # - webpack
+
+  webpack:
+    <<: *base
+    command: ./bin/webpack-dev-server
+
+  streaming:
+    build:
+      context: .
+      dockerfile: Dockerfile-development
+    command: npm run start
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/mastodon
+      - bundle:/mastodon/vendor/bundle
+      - node_modules:/mastodon/node_modules
+      - public-assets:/mastodon/public/assets
+      - public-packs:/mastodon/public/packs
+      - public-system:/mastodon/public/system
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: Dockerfile-development
+    command: bundle exec sidekiq -q default -q mailers -q pull -q push
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - public-system:/mastodon/public/system
+    tmpfs:
+      /mastodon/tmp/pids
+
+volumes:
+  build:
+  bundle:
+  node_modules:
+  postgresql-data:
+  public-assets:
+  public-packs:
+  public-system:
+  redis-data:
+  tmp-cache:
+  yarn_cache:

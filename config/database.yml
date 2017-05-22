@@ -3,6 +3,10 @@ default: &default
   pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
   timeout: 5000
   encoding: unicode
+  username: <%= ENV['DB_USER'] || 'postgres' %>
+  password: <%= ENV['DB_PASS'] || '' %>
+  host: <%= ENV['DB_HOST'] || 'db' %>
+  port: <%= ENV['DB_PORT'] || 5432 %>
 
 development:
   <<: *default
