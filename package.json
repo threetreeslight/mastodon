@@ -20,7 +20,7 @@
   "dependencies": {
     "array-includes": "^3.0.3",
     "autoprefixer": "^6.7.7",
-    "axios": "^0.15.3",
+    "axios": "^0.34.0",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.24.1",
     "babel-loader": "7.x",
@@ -53,11 +53,11 @@
     "font-awesome": "^4.7.0",
     "glob": "^7.1.1",
     "http-link-header": "^0.8.0",
-    "immutable": "^3.8.1",
+    "immutable": "^3.8.4",
     "intl": "^1.2.5",
     "is-nan": "^1.2.1",
-    "js-yaml": "^3.8.3",
-    "lodash": "^4.17.4",
+    "js-yaml": "^3.15.2",
+    "lodash": "^4.18.1",
     "node-sass": "^4.5.2",
     "npmlog": "^4.0.2",
     "object-assign": "^4.1.1",
@@ -94,7 +94,7 @@
     "sass-loader": "^6.0.3",
     "stringz": "^0.1.2",
     "style-loader": "^0.16.1",
-    "uuid": "^3.0.1",
+    "uuid": "^14.0.0",
     "uws": "^0.14.5",
     "webpack": "^2.4.1",
     "webpack-manifest-plugin": "^1.1.0",
@@ -117,7 +117,7 @@
     "react-storybook-addon-intl": "^0.1.0",
     "react-test-renderer": "^15.5.4",
     "sinon": "^1.17.6",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^5.2.6"
   },
   "optionalDependencies": {
     "fsevents": "*"
